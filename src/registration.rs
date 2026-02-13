@@ -194,10 +194,6 @@ impl RegistrationForm {
         self,
         state: &AppState,
         competition_id: Id,
-        // if a participant_id is provided this is an update
-        // and not an insert. We can ignore this for the
-        // first iteration
-        // (otherwise: Just perform an update instead of in insert if that's set)
         participant_id: Option<Id>,
     ) -> Result<()> {
         self.is_valid()?;

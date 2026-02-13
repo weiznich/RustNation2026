@@ -154,8 +154,7 @@ async fn render_registration_list(
             let special_categories = SpecialCategories::belonging_to(&races)
                 .select(SpecialCategories::as_select())
                 .load(conn)?;
-            //let special_categories = special_categories.grouped_by(&races);
-            let special_categories = vec![Vec::<SpecialCategories>::new(); races.len()];
+            let special_categories = special_categories.grouped_by(&races);
 
             let participants = participants::table
                 .inner_join(categories::table.inner_join(starts::table.inner_join(races::table)))
@@ -176,10 +175,8 @@ async fn render_registration_list(
                     .select(SpecialCategoryPerParticipant::as_select())
                     .load(conn)?;
 
-            // let special_categories_per_participant =
-            //     special_categories_per_participant.grouped_by(&participants);
             let special_categories_per_participant =
-                vec![Vec::<SpecialCategoryPerParticipant>::new(); participants.len()];
+                special_categories_per_participant.grouped_by(&participants);
 
             Ok((
                 participants,

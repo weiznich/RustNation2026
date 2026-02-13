@@ -10,6 +10,12 @@ use tower::ServiceExt;
 
 #[tokio::test]
 async fn list_competitions_contains_all_competition() {
+    let mut insta_settings = insta::Settings::new();
+    insta_settings.add_filter(
+        r"[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}*",
+        "[UUID]",
+    );
+    let _scope = insta_settings.bind_to_scope();
     let (router, state) = race_timing::setup(super::test_config(false)).await;
 
     let res = router

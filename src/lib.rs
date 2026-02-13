@@ -1,12 +1,3 @@
-// caused by the todo macros that
-// are supposed to be replaced by workshop participants
-#![allow(
-    unreachable_code,
-    unused_variables,
-    dead_code,
-    // seems to be a false positive
-    clippy::diverging_sub_expression
-)]
 use admin::user::auth_session::LoginBackend;
 use admin::user::sqlite_session_store::SqliteSessionStore;
 use axum::http::header::CONTENT_TYPE;

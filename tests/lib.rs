@@ -42,6 +42,7 @@ async fn translations_work() {
     let data = resp.into_body().collect().await.unwrap().to_bytes();
     let string = String::from_utf8(data.to_vec()).unwrap();
     assert!(string.contains("Competitions"));
+    insta::assert_snapshot!("english", string);
 
     // requesting german translation works
     let resp = router
@@ -58,6 +59,7 @@ async fn translations_work() {
     let data = resp.into_body().collect().await.unwrap().to_bytes();
     let string = String::from_utf8(data.to_vec()).unwrap();
     assert!(string.contains("Wettkämpfe"));
+    insta::assert_snapshot!("german", string);
 
     // default is english
     let resp = router
@@ -69,6 +71,7 @@ async fn translations_work() {
     let data = resp.into_body().collect().await.unwrap().to_bytes();
     let string = String::from_utf8(data.to_vec()).unwrap();
     assert!(string.contains("Competitions"));
+    insta::assert_snapshot!("default_is_english", string);
 
     // non existing language falls back to english
     let resp = router
@@ -85,7 +88,7 @@ async fn translations_work() {
     let data = resp.into_body().collect().await.unwrap().to_bytes();
     let string = String::from_utf8(data.to_vec()).unwrap();
     assert!(string.contains("Competitions"));
-    insta::assert_snapshot!("english", string);
+    insta::assert_snapshot!("fallback_to_english", string);
 
     // fallback chain works
     let resp = router
@@ -102,5 +105,5 @@ async fn translations_work() {
     let data = resp.into_body().collect().await.unwrap().to_bytes();
     let string = String::from_utf8(data.to_vec()).unwrap();
     assert!(string.contains("Wettkämpfe"), "{string}");
-    insta::assert_snapshot!("german", string);
+    insta::assert_snapshot!("fallback_chain_to_german", string);
 }
